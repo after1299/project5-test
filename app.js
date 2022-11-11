@@ -5,6 +5,7 @@ const ejs = require("ejs");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const { connect } = require("http2");
+const authRoute = require("./routes/auth-route");
 
 mongoose
   .connect(
@@ -26,6 +27,7 @@ mongoose
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/auth", authRoute);  // (Route with parameter) -> https://blog.gtwang.org/programming/learn-to-use-the-new-router-in-expressjs-4/
 
 app.get("/", (req, res) => {
   res.render("index");
