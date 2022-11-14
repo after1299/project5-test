@@ -13,4 +13,8 @@ router.get(
   }) // this is a middleware
 );
 
+router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
+    res.redirect("/profile");
+})
+
 module.exports = router;

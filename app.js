@@ -6,7 +6,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const { connect } = require("http2");
 const authRoute = require("./routes/auth-route");
-require("./config/passport") // -> will import middleware in this app.js from passport.js
+const profileRoute = require("./routes/profile")
+require("./config/passport") // -> will import middleware into this app.js from passport.js
 
 mongoose
   .connect(
@@ -29,6 +30,7 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/auth", authRoute);  // (Route with parameter) -> https://blog.gtwang.org/programming/learn-to-use-the-new-router-in-expressjs-4/
+app.use("/profile", profileRoute);
 
 app.get("/", (req, res) => {
   res.render("index");
