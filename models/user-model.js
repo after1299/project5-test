@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         require: true,
-        minLength: 6, 
+        minLength: 3, 
         maxLength: 255,
     },
     googleID: {

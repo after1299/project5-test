@@ -3,6 +3,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20");
 const User = require("../models/user-model");
 
+// https://www.passportjs.org/tutorials/google/session/
 passport.serializeUser((user, done) => {
     console.log("id has been serialized.");
     done(null, user._id); // Only user id need to be serialized.
