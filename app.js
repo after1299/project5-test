@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const { connect } = require("http2");
 const authRoute = require("./routes/auth-route");
-require("./config/passport")
+require("./config/passport") // -> will import middleware in this app.js from passport.js
 
 mongoose
   .connect(
