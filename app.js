@@ -6,10 +6,11 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const { connect } = require("http2");
 const authRoute = require("./routes/auth-route");
+require("./config/passport")
 
 mongoose
   .connect(
-    "mongodb+srv://peter3403:peter1215@cluster0.ugoafy7.mongodb.net/?retryWrites=true&w=majority",
+    process.env.CONNECT_DB,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
