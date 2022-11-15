@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const bcrypt = require("bcrypt");
+const User = require("../models/user-model")
 
 router.get("/login", (req, res) => {
   res.render("login", { user: req.user });
@@ -11,13 +12,24 @@ router.get("/signup", (req, res) => {
 });
 
 router.post("/signup", async(req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   let {name, email, password} = req.body;
   const emailExist = await User.findOne({email});
   if(emailExist) {
     res.status(400).send("Email already exist.")
   } else {
-
+    password = await bcrypt.hash(password, 10); // -> salting and hash the password
+    let newUser = new User({name, email, password});
+    try {
+      const savedUser = await newUser.save();
+      res.send({
+        msg: "User saved.",
+        savedObj: savedUser
+      });
+    } catch(err) {
+      res.status(400).send(err);
+      console.log("User not been saved.")
+    }
   }
 })
 
