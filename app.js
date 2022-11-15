@@ -8,7 +8,7 @@ const cookieSession = require("cookie-session");
 const session = require("express-session");
 const { connect } = require("http2");
 const authRoute = require("./routes/auth-route");
-const profileRoute = require("./routes/profile");
+const profileRoute = require("./routes/profile-route");
 const passport = require("passport");
 require("./config/passport") // -> will import middleware into this app.js from passport.js
 
