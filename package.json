@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/after1299/project5-test#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cookie-session": "^2.0.0",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.8",

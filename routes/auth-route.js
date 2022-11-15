@@ -1,21 +1,37 @@
 const router = require("express").Router();
 const passport = require("passport");
+const bcrypt = require("bcrypt");
 
 router.get("/login", (req, res) => {
-  res.render("login", {user: req.user});
+  res.render("login", { user: req.user });
 });
+
+router.get("/signup", (req, res) => {
+  res.render("signup", { user: req.user });
+});
+
+router.post("/signup", async(req, res) => {
+  console.log(req.body);
+  let {name, email, password} = req.body;
+  const emailExist = await User.findOne({email});
+  if(emailExist) {
+    res.status(400).send("Email already exist.")
+  } else {
+
+  }
+})
 
 router.get("/logout", (req, res) => {
   let username = req.user.name;
-  req.logOut(e => {
-    if(e) {
+  req.logOut((e) => {
+    if (e) {
       console.log(e);
     } else {
-      console.log(username + " has been log out.")
+      console.log(username + " has been log out.");
     }
   }); // -> method from passport.
   res.redirect("/");
-})
+});
 
 router.get(
   "/google",
@@ -26,7 +42,7 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-    res.redirect("/profile");
-})
+  res.redirect("/profile");
+});
 
 module.exports = router;
