@@ -5,8 +5,8 @@ const User = require("../models/user-model");
 
 // https://www.passportjs.org/tutorials/google/session/
 passport.serializeUser((user, done) => {
+    done(null, user._id); // Only user id needs to be serialized.
     console.log("id has been serialized.");
-    done(null, user._id); // Only user id need to be serialized.
 })
 
 passport.deserializeUser((_id, done) => {
