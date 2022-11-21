@@ -19,7 +19,7 @@ router.post("/signup", async(req, res) => {
     req.flash("error_msg", "Email has been already been registered."); // -> req.flash("keys", "values");
     res.redirect("/auth/signup");
   } else if(password.length < 8) {
-    req.flash("error_msg", "Password is too short, password's length should be > 8.");
+    req.flash("error_msg", "Password is too short, password's length should be longer than 8.");
     res.redirect("/auth/signup");
   } else {
     password = await bcrypt.hash(password, 10); // -> salting and hash the password
