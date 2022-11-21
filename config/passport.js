@@ -32,7 +32,8 @@ passport.use(new GoogleStrategy({
             new User({
                 name: profile.displayName,
                 googleID: profile.id,
-                thumbnail: profile.photos[0].value
+                thumbnail: profile.photos[0].value,
+                email: profile.emails[0].value
             }).save().then((newUser) => {
                 console.log("New user created.");
                 done(null, newUser);

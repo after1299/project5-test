@@ -16,19 +16,23 @@ router.post("/signup", async(req, res) => {
   let {name, email, password} = req.body;
   const emailExist = await User.findOne({email});
   if(emailExist) {
-    res.status(400).send("Email already exist.")
+    req.flash("error_msg", "Email has been already been registered."); // -> req.flash("keys", "values");
+    res.redirect("/auth/signup");
+  } else if(password.length < 8) {
+    req.flash("error_msg", "Password is too short, password's length should be > 8.");
+    res.redirect("/auth/signup");
   } else {
     password = await bcrypt.hash(password, 10); // -> salting and hash the password
     let newUser = new User({name, email, password});
     try {
-      const savedUser = await newUser.save();
-      res.send({
-        msg: "User saved.",
-        savedObj: savedUser
-      });
+      await newUser.save();
+      req.flash("success_msg", "Registration succeeds. You can login now.");
+      res.redirect("/auth/login");
     } catch(err) {
       res.status(400).send(err);
       console.log("User not been saved.")
+      req.flash("error_msg", err.errors.name.properties.message);
+      res.redirect("auth/signup");
     }
   }
 })
@@ -49,7 +53,7 @@ router.get(
   "/google",
   passport.authenticate("google", {
     // -> https://www.passportjs.org/
-    scope: ["profile"], // wanna get the doc from profile.
+    scope: ["profile", "email"], // wanna get the doc from profile.
   }) // this is a middleware
 );
 
