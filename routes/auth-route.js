@@ -42,7 +42,13 @@ router.post("/login", passport.authenticate("local", {
   failureRedirect: "/auth/login",
   failureFlash: "Your email or password is incorrect."
 }), (req, res) => {
-  res.redirect("/profile");
+  if(req.session.returnTo) {
+    let newPath = req.session.returnTo;
+    req.session.returnTo = "";
+    res.redirect(newPath);
+  }else {
+    res.redirect("/profile");
+  }
 })
 
 router.get("/logout", (req, res) => {
@@ -66,7 +72,13 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  res.redirect("/profile");
+  if(req.session.returnTo) {
+    let newPath = req.session.returnTo;
+    req.session.returnTo = "";
+    res.redirect(newPath);
+  }else {
+    res.redirect("/profile");
+  }
 });
 
 module.exports = router;
