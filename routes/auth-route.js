@@ -29,12 +29,20 @@ router.post("/signup", async(req, res) => {
       req.flash("success_msg", "Registration succeeds. You can login now.");
       res.redirect("/auth/login");
     } catch(err) {
-      res.status(400).send(err);
-      console.log("User not been saved.")
+      console.log("User not been saved.");
+      console.log(err.errors.name.properties.message);
       req.flash("error_msg", err.errors.name.properties.message);
-      res.redirect("auth/signup");
+      res.redirect("/auth/signup");
     }
   }
+})
+
+// https://www.passportjs.org/packages/passport-local/
+router.post("/login", passport.authenticate("local", {
+  failureRedirect: "/auth/login",
+  failureFlash: "Your email or password is incorrect."
+}), (req, res) => {
+  res.redirect("/profile");
 })
 
 router.get("/logout", (req, res) => {

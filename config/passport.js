@@ -1,6 +1,8 @@
 const { now } = require("mongoose");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20");
+const LocalStrategy = require("passport-local");
+const bcrypt = require("bcrypt");
 const User = require("../models/user-model");
 
 // https://www.passportjs.org/tutorials/google/session/
@@ -16,6 +18,28 @@ passport.deserializeUser((_id, done) => {
         done(null, user);
     });
 })
+
+// https://www.passportjs.org/packages/passport-local/
+passport.use(new LocalStrategy((username, password, done) => {
+    User.findOne({email: username}).then(async (user) => {
+        if(!user) {
+            return done(null, false);
+        } else {
+            await bcrypt.compare(password, user.password, (err, result) => {
+                if(err) {
+                    return done(null, false);
+                }
+                if(!result) {
+                    return done(null, false);
+                } else {
+                    return done(null, user);
+                }
+            });
+        }
+    }).catch((err) => {
+        return done(null, false);
+    })
+}))
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,

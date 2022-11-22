@@ -47,6 +47,7 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg"); // can get the locals parameter called "success_msg" which values saved in the flash key named "success_msg".
   res.locals.error_msg = req.flash("error_msg"); // req.flash("keys", "values")
+  res.locals.error = req.flash("error"); // only for passport failureFlash.
   next();
 })
 
